@@ -12,3 +12,8 @@ Maciej Januszewski (maciek@mjanuszewski.pl)
 ```
 ./runserver.sh
 ```
+
+### Used HTML example:
+```
+https://bootsnipp.com/snippets/NAjzp
+```
