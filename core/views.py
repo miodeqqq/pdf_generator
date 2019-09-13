@@ -39,6 +39,16 @@ class GeneratePdf(TemplateView):
 
     template_name = 'report.html'
 
+    def get_context_data(self, **kwargs):
+        """
+        """
+
+        context = super(GeneratePdf, self).get_context_data(**kwargs)
+
+        context['report'] = Report.objects.last()
+
+        return context
+
     def get(self, request, *args, **kwargs):
         """
         """
