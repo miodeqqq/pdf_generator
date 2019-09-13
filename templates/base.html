@@ -1,0 +1,14 @@
+{% spaceless %}
+<html>
+<head>
+    {% block head %}{% endblock %}
+    {% block title %}{% endblock %}
+    {% block css %}{% endblock %}
+</head>
+<body>
+{% block header %}{% endblock %}
+{% block content %}{% endblock %}
+</body>
+ {% block additional_js %}{% endblock %}
+</html>
+{% endspaceless %}

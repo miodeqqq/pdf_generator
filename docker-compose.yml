@@ -1,0 +1,48 @@
+version: '2'
+services:
+  postgres:
+    restart: always
+    image: postgres:10.5
+    volumes:
+      - /var/lib/postgresql
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_PASSWORD=$PASSWORD
+      - POSTGRES_USER=$USER
+      - POSTGRES_DB=$DB_NAME
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./static:/static
+      - ./media:/media
+    depends_on:
+      - web
+
+  web:
+    image: pdf_generator
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint:
+      - ./wait-for-postgres.sh
+      - ./entrypoint.sh
+    expose:
+      - "80"
+    volumes:
+      - .:/src
+      - ./static:/static
+      - ./media:/media
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgres://$USER:$PASSWORD@postgres:5432/$DB_NAME
+      - DEBUG=$DEBUG
